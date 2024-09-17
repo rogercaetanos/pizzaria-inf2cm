@@ -63,6 +63,21 @@ public class ProdutoServiceImpl implements ProdutoService {
     @Override
     @Transactional
     public Produto atualizarProduto(Produto produto, Long id) {
-        return null;
+     try{
+         if(!produto.validarProduto()) {
+             throw new BadRequest(produto.getMensagemErro());
+         }
+         // Prosseguindo na atualização
+         Produto produtoBd = produtoRepository.findById(id).get();
+         produtoBd.setNome(produto.getNome());
+         produtoBd.setDescricao(produto.getDescricao());
+         produtoBd.setValorVenda(produto.getValorVenda());
+         produtoBd.setQuantidadeEstoque(produto.getQuantidadeEstoque());
+         produtoBd.setTipo(produto.getTipo());
+         return produtoRepository.save(produtoBd); // save: Atualiza quando já existe o objeto no banco de dados
+     }catch (Exception ex){
+         throw new NotFound("Produto não encontrado com o id " + id);
+     }
+
     }
 }
