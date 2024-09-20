@@ -1,5 +1,6 @@
 package com.itb.inf2cm.pizzaria.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -14,11 +15,12 @@ public class Categoria {
     private String nome;
     @Column(nullable = true, length = 100)
     private String descricao;
-    private boolean codStatusCategoria;
+    private boolean codStatus;
 
     // Atributos de apoio (validação)
 
     @Transient                     // NÃO REPRESENTA UMA COLUNA
+    @JsonIgnore
     private String mensagemErro = "";
     @Transient                     // NÃO REPRESENTA UMA COLUNA
     private boolean isValid = true;
@@ -47,12 +49,12 @@ public class Categoria {
         this.descricao = descricao;
     }
 
-    public boolean isCodStatusCategoria() {
-        return codStatusCategoria;
+    public boolean isCodStatus() {
+        return codStatus;
     }
 
-    public void setCodStatusCategoria(boolean codStatusCategoria) {
-        this.codStatusCategoria = codStatusCategoria;
+    public void setCodStatus(boolean codStatus) {
+        this.codStatus = codStatus;
     }
 
     public String getMensagemErro() {
@@ -60,7 +62,10 @@ public class Categoria {
     }
 
     public boolean validarCategoria() {
-
+        if(nome == null || nome.isEmpty()) {
+            mensagemErro += "O nome da categoria é obrigatório:";
+            isValid = false;
+        }
         return isValid;
     }
 }
