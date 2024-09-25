@@ -84,3 +84,13 @@ public class FuncionarioController {
 
 
 }
+/*
+
+Exercício Desafio
+
+1-) Realizar a exclusão Lógica da Categoria
+
+Nota: A exclusão lógica é um "UPDATE" no código status
+      do registro
+      true -> false
+* */
